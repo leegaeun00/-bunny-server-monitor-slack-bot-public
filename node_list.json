@@ -1,0 +1,20 @@
+{
+  "servers": [
+    {
+      "serverName": "mound server 1",
+      "host": "http://115.91.230.36:8545"
+    },
+    {
+      "serverName": "mound server 2",
+      "host": "http://192.168.1.154:8545"
+    },
+    {
+      "serverName": "mound server 3",
+      "host": "http://115.91.230.36:10545"
+    },
+    {
+      "serverName": "mound server 4",
+      "host": "http://115.91.230.36:9545"
+    }
+  ]
+}
