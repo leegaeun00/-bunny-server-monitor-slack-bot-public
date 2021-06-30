@@ -117,7 +117,7 @@ async function sendErrorMsg(consecutiveErrorInfo) {
             console.log('Done', res.data);
         }
 
-    // sends error message if server has "unknown" sync status b/c errored while monitoring
+    // sends error message if server has "unknown" sync status b/c eth_syncing failed
     } else if (syncStatus==="unknown") {
         var errorName = consecutiveErrorInfo[2];
         var errorStack = consecutiveErrorInfo[3];
@@ -149,9 +149,11 @@ async function monitorServer(host, serverName) {
 // monitor all servers
 function monitorAllServers() {
     // loop through all servers
-    for (let i = 0; i < number_of_servers; i++) {
+    // every 1000ms=1s, monitor each server
+    // (to make execution time always larger than pm2 default min-uptime 1s)
+    setTimeout(()=>{
         monitorServer(servers[i].host, servers[i].serverName);
-    }
+    },1000);
 }
 
 // every 300000ms=5min, monitor all servers
