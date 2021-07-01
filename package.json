@@ -24,5 +24,10 @@
   "bugs": {
     "url": "https://github.com/leegaeun00/server-monitor-slack-bot-public/issues"
   },
-  "homepage": "https://github.com/leegaeun00/server-monitor-slack-bot-public#readme"
+  "homepage": "https://github.com/leegaeun00/server-monitor-slack-bot-public#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "ethers": "^5.4.0",
+    "pm2": "^5.1.0"
+  }
 }

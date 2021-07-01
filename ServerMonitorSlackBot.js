@@ -1,6 +1,6 @@
 var ethers = require('ethers');
 var axios = require('axios');
-var bsc_node_list = require('./node_list.json');
+var node_list = require('./node_list.json');
 var slack_config = require('./slack_config.json');
 
 // node_list data
@@ -19,15 +19,12 @@ function checkError (host, serverName) {
         try {
             var customHttpProvider = new ethers.providers.JsonRpcProvider(host);
 
+            // if node is synced, eth_syncing command returns false
             customHttpProvider.send("eth_syncing").then((result) => {
-                // if node is synced, eth_syncing command returns false
-                console.log(serverName + " eth_syncing result: " + result);
 
                 // if node is synced:
                 if (result.toString() === 'false') {
-                // if (result.toString() !== 'false') {
                     var syncStatus = 'true';
-                    console.log(serverName + " monitor results: ", [serverName, syncStatus]);
                     resolve([serverName, syncStatus]);
 
                 // if node is out of sync:
@@ -35,7 +32,6 @@ function checkError (host, serverName) {
                     var syncStatus = 'false';
                     var currentBlock = parseInt(result.currentBlock.toString(),16).toString();
                     var highestBlock = parseInt(result.highestBlock.toString(),16).toString();
-                    console.log(serverName + " monitor results: ", [serverName, syncStatus, currentBlock, highestBlock, host]);
                     resolve([serverName, syncStatus, currentBlock, highestBlock, host]);
                 }
             })
@@ -46,7 +42,6 @@ function checkError (host, serverName) {
             var errorName = error.toString()
             var errorStack = error.stack
             resolve([serverName, syncStatus, errorName, errorStack, host]);
-            console.log(serverName + " monitor results: ", [serverName, syncStatus, errorName, errorStack, host]);
         }
     })
 }
@@ -59,15 +54,12 @@ function checkConsecutiveError (errorInfo, errorCount) {
         var host = errorInfo[4];
 
         if (errorInfo.length===2) {
-            console.log(serverName + ": " + "no error");
             resolve (errorInfo);
 
         } else if (errorCount===3) {
-            console.log(serverName + ": " + "3 consecutive errors")
             resolve (errorInfo);
 
         }  else if (errorCount===undefined) {
-            console.log(serverName + ": " + "no consecutive errors before")
             var newErrorCount = 1;
             setTimeout(()=>{
                 checkError(host, serverName).then((errorInfo)=>{
@@ -76,7 +68,6 @@ function checkConsecutiveError (errorInfo, errorCount) {
             },30000);
 
         } else if (errorCount===1 || errorCount===2) {
-            console.log(serverName + ": " + errorCount.toString() + " consecutive error(s)")
             var newErrorCount = errorCount + 1;
             setTimeout(()=>{
                 checkError(host, serverName).then((errorInfo)=>{
@@ -97,7 +88,7 @@ async function sendErrorMsg(consecutiveErrorInfo) {
 
     // does nothing if no consecutive errors
     if (consecutiveErrorInfo.length===2){
-        console.log("no error message b/c no consecutive errors")
+        console.log(serverName + ": no error message b/c no consecutive errors")
 
     // sends error message if server node is out of sync
     } else if (syncStatus==="false") {
@@ -140,23 +131,23 @@ async function sendErrorMsg(consecutiveErrorInfo) {
 // monitor server: check if server has consecutive errors and sends slack error message
 async function monitorServer(host, serverName) {
     let errorInfo = await checkError(host, serverName);
-    console.log("resolved 1")
     let consecutiveErrorInfo = await checkConsecutiveError(errorInfo);
-    console.log("resolved 2", consecutiveErrorInfo);
     sendErrorMsg(consecutiveErrorInfo);
 }
 
 // monitor all servers
 function monitorAllServers() {
     // loop through all servers
-    // every 1000ms=1s, monitor each server
-    // (to make execution time always larger than pm2 default min-uptime 1s)
-    setTimeout(()=>{
-        monitorServer(servers[i].host, servers[i].serverName);
-    },1000);
+    for (let i = 0; i < number_of_servers; i++) {
+        // every 1000ms=1s, monitor each server
+        // (to make execution time always larger than pm2 default min-uptime 1s)
+        setTimeout(()=>{
+            monitorServer(servers[i].host, servers[i].serverName);
+        },1000);
+    }
 }
 
 // every 300000ms=5min, monitor all servers
 setTimeout(()=>{
     monitorAllServers();
-},300000)
+},1000)
