@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="77661971-81c2-42b3-a619-e50a7aa4cf1b" name="Default Changelist" comment="monitor if server nodes are out of sync and send error message">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ServerMonitorSlackBot.js" beforeDir="false" afterPath="$PROJECT_DIR$/ServerMonitorSlackBot.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +85,7 @@
       <workItem from="1624929522390" duration="14850000" />
       <workItem from="1624956843439" duration="1000" />
       <workItem from="1624960642714" duration="41000" />
-      <workItem from="1625032433630" duration="27000" />
+      <workItem from="1625032433630" duration="2219000" />
     </task>
     <servers />
   </component>

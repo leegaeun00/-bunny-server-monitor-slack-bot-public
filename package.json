@@ -1,0 +1,28 @@
+{
+  "name": "server-monitor-slack-bot-public",
+  "version": "1.0.0",
+  "description": "monitor through servers and sends error message",
+  "main": "ServerMonitorSlackBot.js",
+  "scripts": {
+    "test": "server-monitor-slack-bot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leegaeun00/server-monitor-slack-bot-public.git"
+  },
+  "keywords": [
+    "monitor",
+    "servers",
+    "eth-syncing",
+    "send",
+    "error",
+    "message",
+    "slack"
+  ],
+  "author": "Lia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leegaeun00/server-monitor-slack-bot-public/issues"
+  },
+  "homepage": "https://github.com/leegaeun00/server-monitor-slack-bot-public#readme"
+}
