@@ -150,4 +150,4 @@ function monitorAllServers() {
 // every 300000ms=5min, monitor all servers
 setTimeout(()=>{
     monitorAllServers();
-},1000)
+},300000)
