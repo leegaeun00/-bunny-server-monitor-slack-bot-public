@@ -1,4 +1,4 @@
-# server-monitor-slack-bot-public
+# bunny-server-monitor-slack-bot-public
 
 (*Go to master branch to view code.)
 
